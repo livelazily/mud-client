@@ -6,6 +6,7 @@ module.exports = {
     host:         'solace.appcasion.com',
     port:         4000,
     password:     'PASSWORD',
+    encoding:     'utf-8',
     loadHandlers: [
       './classes/fighter',
       './triggers/starveGuard',

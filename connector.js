@@ -11,6 +11,7 @@ const chalk = require('chalk');
 const path = require('path');
 const fse = require('fs-extra');
 const ipc = require('./lib/ipc');
+const iconv = require('iconv-lite');
 
 class ReadlineInterface extends readline.Interface {
   constructor(...args) {
@@ -91,6 +92,7 @@ class Connector extends EventEmitter {
     let charConfig = config[charName];
     let port = charConfig.port;
     let host = charConfig.host;
+    let encoding = charConfig.encoding || 'utf-8';
 
     const telnetInput = this.telnetInput = new TelnetInput();
     const telnetOutput = this.telnetOutput = new TelnetOutput();
@@ -132,18 +134,18 @@ class Connector extends EventEmitter {
     fse.ensureDirSync('./logs/' + charName);
 
     telnetInput.pipe(through2(function(chunk, enc, callback) {
-      chunk = chunk.toString('utf-8');
-      chunk = chunk.replace(/\r/g, '');
-      callback(null, chunk);
+      let text = iconv.decode(chunk, encoding);
+      text = text.replace(/\r/g, '');
+      callback(null, text);
     })).pipe(fse.createWriteStream('./logs/' + charName + '/' + Date.now() + '.log'));
 
     telnetInput.pipe(through2((chunk, enc, callback) => {
       // remove ending newline from the prompt to show more nicely
-      chunk = chunk.toString('utf-8');
-      chunk = chunk.replace(/((?:[\n\r]|^)<.*?>)\n\r?/g, '$1 ');
+      let text = iconv.decode(chunk, encoding);
+      text = text.replace(/((?:[\n\r]|^)<.*?>)\n\r?/g, '$1 ');
       // chunk = this.ignoreFilter(chunk);
-      if (chunk) {
-        callback(null, chunk);
+      if (text) {
+        callback(null, text);
       } else {
         callback(null);
       }
