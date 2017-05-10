@@ -27,19 +27,19 @@ class ReadlineInterface extends readline.Interface {
       return false;
     }
 
-    if (key && key.name == 'up') {
+    if (key && key.name === 'up') {
       this.emit('line', key.shift ? 'u' : 'n');
       return true;
     }
-    if (key && key.name == 'down') {
+    if (key && key.name === 'down') {
       this.emit('line', key.shift ? 'd' : 's');
       return true;
     }
-    if (key && key.name == 'left') {
+    if (key && key.name === 'left') {
       this.emit('line', 'w');
       return true;
     }
-    if (key && key.name == 'right') {
+    if (key && key.name === 'right') {
       this.emit('line', 'e');
       return true;
     }
@@ -49,25 +49,27 @@ class ReadlineInterface extends readline.Interface {
   _ttyWrite(s, key) {
     if (key) {
       let handled = this.handleKey(key);
-      if (handled) return;
+      if (handled) {
+        return;
+      }
     }
 
     // vs <target>
     // alias a1 murder <target>
-    if (s == '`') {
+    if (s === '`') {
       this.emit('line', 'a1'); // attack 2
       return;
     }
-    if (s == '~') {
+    if (s === '~') {
       this.emit('line', 'a2'); // attack 2
       return;
     }
-/*
-    if (s == '!') {
-      this.emit('line', '!'); // attack
-      return;
-    }
-*/
+    /*
+     if (s == '!') {
+     this.emit('line', '!'); // attack
+     return;
+     }
+     */
     super._ttyWrite(s, key);
   }
 }
@@ -119,21 +121,21 @@ class Connector extends EventEmitter {
 
     telnetInput.on('data', data => this.emit('dataServer', data));
 
-    /*
-    // add \n to prompt unless it exists already or a battleprompt
-    const promptNewLineStream = through2(function(chunk, enc, callback) {
+    /**
+     // add \n to prompt unless it exists already or a battleprompt
+     const promptNewLineStream = through2(function(chunk, enc, callback) {
       chunk = chunk.toString('utf-8');
       chunk = chunk.replace(/([\n\r]|^)<.*?>(?!\n)(?! \[)/g, '$&\n');
       // console.log("CHUNK", JSON.stringify(chunk));
       callback(null, chunk);
     });
-    telnetInput.pipe(promptNewLineStream);
+     telnetInput.pipe(promptNewLineStream);
 
      */
 
     fse.ensureDirSync('./logs/' + charName);
 
-    telnetInput.pipe(through2(function(chunk, enc, callback) {
+    telnetInput.pipe(through2(function (chunk, enc, callback) {
       let text = iconv.decode(chunk, encoding);
       text = text.replace(/\r/g, '');
       callback(null, text);
@@ -167,24 +169,28 @@ class Connector extends EventEmitter {
         this.readlineServer.removeListener('line', login);
       }
 
-      if (line == 'The realm will await your return.') {
+      if (line === 'The realm will await your return.') {
         process.exit();
       }
 
-      if (line == '[Hit Return to continue]') {
+      if (line === '[Hit Return to continue]') {
         this.write('\r\n');
       }
     }.bind(this));
 
     this.readlineServer.on('line', line => {
 
-      if (this.readlineServerDisabled) return;
+      if (this.readlineServerDisabled) {
+        return;
+      }
 
       line = chalk.stripColor(line.trim());
 
       // console.log("LINE", JSON.stringify(line));
 
-      if (this.processServerPrompt(line)) return;
+      if (this.processServerPrompt(line)) {
+        return;
+      }
 
       // otherwise
       this.emit('readlineServer', line);
@@ -211,8 +217,8 @@ class Connector extends EventEmitter {
     }
   }
 
-  /*
-  ignoreFilter(line) {
+  /**
+   ignoreFilter(line) {
     line = line.replace(/(\n|^)(Your |You |They ).*$/gim, '');
     if (line.startsWith('Your ') || line.startsWith('You ') || line.startsWith('They ')) {
       return '';
@@ -224,7 +230,7 @@ class Connector extends EventEmitter {
     // no nested { } supported
 
     // #cmd {arg1;smth} {arg2}
-    if (line[0] == '#') {
+    if (line[0] === '#') {
       let command = line.slice(1);
       let commandName = command.split(' ')[0];
       command = command.slice(commandName.length).trim(); // {arg1;smth} {arg2}
@@ -234,13 +240,15 @@ class Connector extends EventEmitter {
       while (true) {
         let count = args.length;
         command = command.trim();
-        if (!command) break;
-        command = command.replace(/\{(.*?)\}|([#'"a-zA-Z0-9-_\/.\\]+)/, function(match, bracketed, bare) {
+        if (!command) {
+          break;
+        }
+        command = command.replace(/\{(.*?)\}|([#'"a-zA-Z0-9-_\/.\\]+)/, function (match, bracketed, bare) {
           args.push(bracketed || bare);
           return '';
         });
 
-        if (args.length == count) {
+        if (args.length === count) {
           // no new args found
           this.showError("Command fail to parse command: " + line);
           return;
@@ -282,24 +290,26 @@ class Connector extends EventEmitter {
       prompt = match;
     }
 
-    if (!prompt) return false;
+    if (!prompt) {
+      return false;
+    }
 
     prompt = {
-      hp:          +prompt[1],
-      hpMax:       +prompt[2],
-      hpPercent:   prompt[1] / prompt[2],
-      mana:        +prompt[3],
-      manaMax:     +prompt[4],
+      hp: +prompt[1],
+      hpMax: +prompt[2],
+      hpPercent: prompt[1] / prompt[2],
+      mana: +prompt[3],
+      manaMax: +prompt[4],
       manaPercent: prompt[3] / prompt[4],
-      mv:          +prompt[5],
-      mvMax:       +prompt[6],
-      mvPercent:   prompt[5] / prompt[6],
-      exits:       prompt[7].trim(),
-      battle:      prompt[8] ? {
-        attacker:       prompt[8].trim(),
+      mv: +prompt[5],
+      mvMax: +prompt[6],
+      mvPercent: prompt[5] / prompt[6],
+      exits: prompt[7].trim(),
+      battle: prompt[8] ? {
+        attacker: prompt[8].trim(),
         attackerHealth: prompt[9].trim(),
-        target:         prompt[10].trim(),
-        targetHealth:   prompt[11].trim()
+        target: prompt[10].trim(),
+        targetHealth: prompt[11].trim()
       } : null
     };
 
@@ -336,7 +346,7 @@ class Connector extends EventEmitter {
     let HandlerClass;
     try {
       HandlerClass = require(scriptPath);
-    } catch(e) {
+    } catch (e) {
       this.showError(e.message + " for " + scriptPath + "\n" + e.stack);
       return;
     }
