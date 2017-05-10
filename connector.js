@@ -105,7 +105,11 @@ class Connector extends EventEmitter {
       .setNoDelay(true);
 
     this.socket.pipe(telnetInput);
-    telnetOutput.pipe(this.socket);
+    telnetOutput
+    // convert terminal input to custom encoding
+      .pipe(iconv.decodeStream('utf-8'))
+      .pipe(iconv.encodeStream(encoding))
+      .pipe(this.socket);
 
     this.socket.on('close', () => {
       this.socket.unpipe(telnetInput);
