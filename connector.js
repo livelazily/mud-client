@@ -159,6 +159,8 @@ class Connector extends EventEmitter {
 
     this.readlineServer = readline.createInterface({
       input: telnetInput
+        .pipe(iconv.decodeStream(encoding))
+        .pipe(iconv.encodeStream('utf-8'))
     });
 
     this.readlineServer.resume();
