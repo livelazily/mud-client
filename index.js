@@ -17,13 +17,13 @@ let character = new Character(connector, charName, config[charName].options);
 
 // #off disables all actions
 connector.on('command', function(cmd, args) {
-  if (cmd == 'off') {
+  if (cmd === 'off') {
     connector.readlineServerDisabled = true;
   }
 });
 
 connector.on('command', function(cmd, args) {
-  if (cmd == 'prompt') {
+  if (cmd === 'prompt') {
     let name = charName[0].toUpperCase() + charName.slice(1);
     connector.write(`prompt <${name} %h/%Hhp %m/%Mmana %v/%Vmv | %e>%c`);
     connector.write(`battleprompt <${name} %h/%Hhp %m/%Mmana %v/%Vmv | %e> [%n]: %t     [%N]: %T%c`);
@@ -67,4 +67,7 @@ connector.loadHandler('./notifiers/master');
 connector.loadHandler('./notifiers/disarm');
 
 connector.loadHandler('./commands/g');
+connector.loadHandler('./commands/dz');
+connector.loadHandler('./commands/shui');
+connector.loadHandler('./notifiers/antirobot');
 
