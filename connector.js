@@ -141,9 +141,10 @@ class Connector extends EventEmitter {
 
     telnetInput.pipe(through2(function (chunk, enc, callback) {
       let text = iconv.decode(chunk, encoding);
+      text = chalk.stripColor(text);
       text = text.replace(/\r/g, '');
       callback(null, text);
-    })).pipe(fse.createWriteStream('./logs/' + charName + '/' + Date.now() + '.log'));
+    })).pipe(fse.createWriteStream('./logs/' + charName + '/' + now() + '.log'));
 
     telnetInput.pipe(through2((chunk, enc, callback) => {
       // remove ending newline from the prompt to show more nicely
@@ -220,6 +221,10 @@ class Connector extends EventEmitter {
       for (let handler of charConfig.loadHandlers) {
         this.loadHandler(handler);
       }
+    }
+
+    function now() {
+        return new Date().toISOString().replace(/[T:]/g, '_').replace(/[Z]|\.\d{3}/g, '');
     }
   }
 
