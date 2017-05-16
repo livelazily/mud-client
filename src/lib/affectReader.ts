@@ -1,0 +1,65 @@
+import { Connector } from '../connector';
+
+export interface Affect {
+  type: string;
+  hours: number;
+  minutes: number;
+}
+
+export interface Affects {
+  [spell: string]: Affect;
+}
+
+export class AffectReader {
+  private gettingAffects = false;
+
+  private affects: Affects;
+
+  constructor(private connector: Connector,
+    private callback: (affects: Affects) => void) {
+
+    this.affects = {};
+
+    this.onPrompt = this.onPrompt.bind(this);
+    this.onReadlineServer = this.onReadlineServer.bind(this);
+    this.connector.on('prompt', this.onPrompt);
+    this.connector.on('readlineServer', this.onReadlineServer);
+    this.connector.write(Math.random() > 0.5 ? 'affe' : 'aff');
+  }
+
+  private onReadlineServer(line) {
+
+    if (line === 'The following skills and spells are affecting you:' || line === 'You are not affected by any skills or spells at the moment.') {
+      this.gettingAffects = true;
+    }
+
+    if (this.gettingAffects) {
+      let match = line.match(/'([\w ]+)' (\w+) is active for (\d+) hours and (\d+) minutes/);
+
+      if (match) {
+        let spell = match[1];
+        let type = match[2];
+        let hours = +match[3];
+        let minutes = +match[4];
+
+        this.affects[spell.toLowerCase()] = { type, hours, minutes };
+      }
+
+      match = line.match(/'([\w ]+)' (\w+) is active permanently/);
+      if (match) {
+        let spell = match[1];
+        this.affects[spell.toLowerCase()] = { hours: Infinity, minutes: 0, type: match[2] };
+      }
+    }
+  }
+
+  private onPrompt() {
+    if (this.gettingAffects) {
+      this.gettingAffects = false;
+
+      this.connector.removeListener('prompt', this.onPrompt);
+      this.connector.removeListener('readlineServer', this.onReadlineServer);
+      this.callback(this.affects);
+    }
+  }
+}
