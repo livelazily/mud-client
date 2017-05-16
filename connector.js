@@ -106,7 +106,7 @@ class Connector extends EventEmitter {
 
     this.socket.pipe(telnetInput);
     telnetOutput
-    // convert terminal input to custom encoding
+      // convert terminal input to custom encoding
       .pipe(iconv.decodeStream('utf-8'))
       .pipe(iconv.encodeStream(encoding))
       .pipe(this.socket);
@@ -169,10 +169,14 @@ class Connector extends EventEmitter {
 
     // wait until the prompt and login
     this.readlineServer.on('line', function login(line) {
-      if (line.includes('SOLACE II, The Awakening')) {
+      line = chalk.stripColor(line.trim());
+
+      if (line.includes('位玩家在线上')) {
         this.write(charName);
-        this.write(charConfig.password);
-        this.write('Y\n'); // reconnect if needed
+        setTimeout(() => {
+          this.write(charConfig.password);
+        }, 1000);
+
         this.readlineServer.removeListener('line', login);
       }
 
