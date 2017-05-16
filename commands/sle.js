@@ -11,6 +11,7 @@ module.exports = class extends ConnectorHandler {
   onCommandSle(args) {
     this.connector.character.sleep();
   }
+
   onCommandWak(args) {
     this.connector.character.wake();
   }

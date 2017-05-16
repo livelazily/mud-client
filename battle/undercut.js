@@ -8,10 +8,10 @@ module.exports = class extends AutoBattleHandler {
     super(connector, 'under\nunder\nunder\nunder');
 
     /*
-    super(connector, 'under\nunder', function(line) {
-      return line.startsWith('You slip behind') || line.startsWith('You try to dodge beneath');
-    });
-*/
+     super(connector, 'under\nunder', function(line) {
+     return line.startsWith('You slip behind') || line.startsWith('You try to dodge beneath');
+     });
+     */
   }
 
 };

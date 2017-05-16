@@ -28,7 +28,7 @@ class Trigger {
     let match = line.match(this.pattern);
     // console.log(match);
     if (match) {
-      let cmd = this.reaction.replace(/\$(\d)/g, function(_, num) {
+      let cmd = this.reaction.replace(/\$(\d)/g, function (_, num) {
         // console.log("REPLACING " + _ + " -> " + match[num]);
         return match[num];
       });

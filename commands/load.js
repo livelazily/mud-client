@@ -11,7 +11,7 @@ class LoadCommand extends ConnectorHandler {
   onCommandLoad(args) {
     let script = args[0];
     this.connector.loadHandler(script);
-    
+
   }
 
 }

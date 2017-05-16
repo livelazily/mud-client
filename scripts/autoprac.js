@@ -27,7 +27,9 @@ module.exports = class extends ConnectorHandler {
     if (stats.hpPercent < 0.8) {
       process.exit(1);
     }
-    if (this.casting) return;
+    if (this.casting) {
+      return;
+    }
 
     if (stats.manaPercent > 0.9) {
       this.casting = true;

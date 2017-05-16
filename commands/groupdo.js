@@ -12,7 +12,7 @@ module.exports = class extends ConnectorHandler {
   onCommandGroupdo(args) {
     let action = args.join(' ');
     new GroupReader(this.connector, group => {
-      for(let member in group) {
+      for (let member in group) {
         this.connector.write(`${action} ${member}`);
       }
 

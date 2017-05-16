@@ -14,18 +14,18 @@ module.exports = class extends AutoKill {
       there: '',
       back: '',
       /*
-      onKill: function(connector) {
-        connector.write('get all.coins');
-        connector.write('sac key');
-      },
-      */
-      betweenWalks: function() {
+       onKill: function(connector) {
+       connector.write('get all.coins');
+       connector.write('sac key');
+       },
+       */
+      betweenWalks: function () {
         if (this.connector.character.stats.hpPercent < 0.8) {
           this.connector.write('bandage');
         }
       },
       targets: ['gh', 'zom'],// ghoul first in case it attacks someone of other group members
-      prepare:  [
+      prepare: [
         'stance off',
         'stance off',
         'bers',

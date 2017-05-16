@@ -42,7 +42,9 @@ module.exports = class extends ConnectorHandler {
 
 
   onReadlineServer(line) {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
 
     let match;
     if (match = line.match(/can be referred to as '(.*)'/)) {
@@ -72,8 +74,8 @@ module.exports = class extends ConnectorHandler {
       let found = this.last + '\n' + line;
       notifier.notify({
         message: found,
-        sound:   'Bottle',
-        wait:    true
+        sound: 'Bottle',
+        wait: true
       });
       process.stdout.write('\n' + chalk.red(found) + '\n');
     }

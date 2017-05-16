@@ -17,7 +17,9 @@ module.exports = class extends ConnectorHandler {
     super(connector);
     connector.ipc.of.mud.on('all', message => {
       console.log(message);
-      if (this.disabled) return;
+      if (this.disabled) {
+        return;
+      }
 
       // execute as if came from client
       if (!message.to || message.to == connector.character.name) {
@@ -32,6 +34,7 @@ module.exports = class extends ConnectorHandler {
   onCommandAlloff() {
     this.disabled = true;
   }
+
   onCommandAllon() {
     this.disabled = false;
   }

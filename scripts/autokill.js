@@ -64,14 +64,18 @@ module.exports = class extends ConnectorHandler {
   goThere() {
     if (this.options.there) {
       let walks = SpeedWalk.splitMany(this.options.there);
-      for (let walk of walks) this.connector.write(walk, true);
+      for (let walk of walks) {
+        this.connector.write(walk, true);
+      }
     }
   }
 
   goBack() {
     if (this.options.back) {
       let walks = SpeedWalk.splitMany(this.options.back);
-      for (let walk of walks) this.connector.write(walk, true);
+      for (let walk of walks) {
+        this.connector.write(walk, true);
+      }
     }
   }
 
@@ -94,7 +98,7 @@ module.exports = class extends ConnectorHandler {
           connector.write(this.options.attack + ' ' + this.options.targets[i]);
 
           // true if killed, false otherwise
-          let killed = yield function(callback) {
+          let killed = yield function (callback) {
             connector.once('readlineServer', function onLine(line) {
               // console.log("ONLINE", JSON.stringify(line));
               if (line.includes('DEAD!!')) {
@@ -126,13 +130,15 @@ module.exports = class extends ConnectorHandler {
           } else {
             i++;
             // console.log("NEW", i);
-            if (i == this.options.targets.length) break;
+            if (i == this.options.targets.length) {
+              break;
+            }
           }
 
           // console.log(this.connector.character.state);
           if (this.connector.character.state == this.connector.character.BATTLE) {
             // console.log("WAIT FINISH");
-            yield function(callback) {
+            yield function (callback) {
               this.connector.once('battleFinish', () => callback());
             }.bind(this);
           }
@@ -153,7 +159,7 @@ module.exports = class extends ConnectorHandler {
         let nextWalk = walks.shift();
         connector.show("NEXT " + nextWalk);
         connector.write(nextWalk);
-        if(nextWalk.startsWith('open ')) {
+        if (nextWalk.startsWith('open ')) {
           nextWalk = walks.shift();
           connector.show("NEXT " + nextWalk);
           connector.write(nextWalk);
@@ -164,11 +170,11 @@ module.exports = class extends ConnectorHandler {
       this.goBack();
 
       /*
-      if (!this.options.nofood) {
-        connector.character.eat();
-        connector.character.drink();
-      }
-      */
+       if (!this.options.nofood) {
+       connector.character.eat();
+       connector.character.drink();
+       }
+       */
 
       // connector.write('put luck ' + connector.character.store);
       // connector.write('put chance ' + connector.character.store);

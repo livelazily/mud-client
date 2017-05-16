@@ -13,7 +13,9 @@ module.exports = class extends ConnectorHandler {
   constructor(connector) {
     super(connector);
     connector.ipc.of.mud.on('command.' + this.connector.character.name, (command) => {
-      if (this.disabled) return;
+      if (this.disabled) {
+        return;
+      }
       // execute as if came from client
       this.connector.readlineClient.emit('line', command.data);
     });
@@ -22,6 +24,7 @@ module.exports = class extends ConnectorHandler {
   onCommandAlloff() {
     this.disabled = true;
   }
+
   onCommandAllon() {
     this.disabled = false;
   }

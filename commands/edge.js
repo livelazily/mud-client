@@ -63,18 +63,18 @@ module.exports = class extends ConnectorHandler {
       }
 
       /*
-      if (!affects['proxied iceshield']) {
-        this.connector.ipc.of.mud.emit('all', {to: 'inno', command: '#groupdo c iceshield'});
-      }
-      */
+       if (!affects['proxied iceshield']) {
+       this.connector.ipc.of.mud.emit('all', {to: 'inno', command: '#groupdo c iceshield'});
+       }
+       */
       if (!affects['proxied energyshield'] && full) {
         this.connector.ipc.of.mud.emit('all', {to: 'inno', command: '#groupdo c energyshield'});
       }
 
       /*
-      if (!affects['proxied lightning shield']) {
-        this.connector.ipc.of.mud.emit('all', {to: 'inno', command: '#groupdo c "lightning shield"'});
-      }*/
+       if (!affects['proxied lightning shield']) {
+       this.connector.ipc.of.mud.emit('all', {to: 'inno', command: '#groupdo c "lightning shield"'});
+       }*/
 
       if (!affects['sanctuary']) {
         this.connector.ipc.of.mud.emit('all', {to: 'wedna', command: '#sanc'});

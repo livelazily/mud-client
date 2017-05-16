@@ -28,20 +28,20 @@ class Character {
     if (line.startsWith('You go to sleep')) {
       this.state = this.SLEEPING;
     }
-    if (line == "You rest.") {
+    if (line === "You rest.") {
       this.state = this.RESTING;
     }
-    if (line.startsWith('You wake and stand') || line == "You stand up.") {
+    if (line.startsWith('You wake and stand') || line === "You stand up.") {
       this.state = this.STANDING;
     }
 
     if (this.stats && this.stats.battle) {
-      if (line.toLowerCase() == this.stats.battle.target.toLowerCase() + ' is dead!!') {
+      if (line.toLowerCase() === this.stats.battle.target.toLowerCase() + ' is dead!!') {
         this.connector.emit("battleDead");
       }
     }
 
-    if (line == 'Your body undergoes a rapid transformation and you revert to your true form.') {
+    if (line === 'Your body undergoes a rapid transformation and you revert to your true form.') {
       this.formType = null;
     }
 
@@ -50,13 +50,13 @@ class Character {
   updateStats(stats) {
     // console.log(stats);
     this.stats = stats;
-    if (stats.battle && this.state != this.BATTLE) {
+    if (stats.battle && this.state !== this.BATTLE) {
       this.state = this.BATTLE;
       // console.log("BATTLE START");
       this.connector.emit('battleStart', stats.battle);
     }
 
-    if (!stats.battle && this.state == this.BATTLE) {
+    if (!stats.battle && this.state === this.BATTLE) {
       this.state = this.STANDING;
 
       // console.log("BATTLE FINISH");
@@ -83,6 +83,7 @@ class Character {
     }, 15000);
 
     let self = this;
+
     function checkFull(line) {
       if (line.includes('You are too full to eat more.')) {
         connector.removeListener('readlineServer', checkFull);
@@ -132,7 +133,9 @@ class Character {
 
   // offense || defense
   morph(formType) {
-    if (!this.options.morph) return;
+    if (!this.options.morph) {
+      return;
+    }
     let form = this.options.morph[formType];
     if (!form) {
       this.connector.showError("No form: " + formType);

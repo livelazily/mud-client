@@ -3,13 +3,13 @@
 const SpellupHandler = require('../../lib/spellup');
 
 let spells = {
-  'barkskin':             false,
+  'barkskin': false,
   'protection heat cold': false,
-  'bless':                true,
-  'carapace':             true,
-  'thornskin':            true,
-  'frenzy':            true,
-  'fly':                  true
+  'bless': true,
+  'carapace': true,
+  'thornskin': true,
+  'frenzy': true,
+  'fly': true
 };
 
 module.exports = class extends SpellupHandler {

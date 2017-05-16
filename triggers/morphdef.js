@@ -9,7 +9,9 @@ module.exports = class extends ConnectorHandler {
   }
 
   onStats(stats) {
-    if (this.inProcess) return;
+    if (this.inProcess) {
+      return;
+    }
     if (stats.battle && stats.hpPercent < 0.4 && this.formType != 'defense') {
       this.connector.character.morph('defense');
       // wait until finished until more stats

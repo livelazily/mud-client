@@ -8,11 +8,11 @@ module.exports = class extends AutoKill {
 
   constructor(connector) {
     super(connector, {
-      waitBetween: 50*3*1e3,
+      waitBetween: 50 * 3 * 1e3,
       attack: 'dirt',
       there: 'wuussw',
       back: 'enndde',
-      betweenWalks: function() {
+      betweenWalks: function () {
         if (this.connector.character.stats.hpPercent < 0.8) {
           this.connector.write('bandage');
         }

@@ -16,13 +16,13 @@ connector.connect(config, charName);
 let character = new Character(connector, charName, config[charName].options);
 
 // #off disables all actions
-connector.on('command', function(cmd, args) {
+connector.on('command', function (cmd, args) {
   if (cmd === 'off') {
     connector.readlineServerDisabled = true;
   }
 });
 
-connector.on('command', function(cmd, args) {
+connector.on('command', function (cmd, args) {
   if (cmd === 'prompt') {
     let name = charName[0].toUpperCase() + charName.slice(1);
     connector.write(`prompt <${name} %h/%Hhp %m/%Mmana %v/%Vmv | %e>%c`);

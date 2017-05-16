@@ -5,7 +5,7 @@ const AutoBattleHandler = require('../lib/autoBattleHandler');
 module.exports = class extends AutoBattleHandler {
 
   constructor(connector) {
-    super(connector, 'dirt', function(line) {
+    super(connector, 'dirt', function (line) {
       return line.match(/^Your kicked dirt misses/);
     });
 

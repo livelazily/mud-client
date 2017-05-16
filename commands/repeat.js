@@ -14,7 +14,9 @@ class RepeatCommand extends ConnectorHandler {
   // ...args ?
   onCommand(command, args) {
     let count = +command;
-    if (!count) return;
+    if (!count) {
+      return;
+    }
 
     args = args.join(' ');
 

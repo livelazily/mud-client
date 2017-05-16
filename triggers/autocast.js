@@ -11,7 +11,7 @@ let cast = [
   "You trace a sigil in the air."
 ];
 
-module.exports = function(connector) {
+module.exports = function (connector) {
 
   connector.on('readlineServer', function (line) {
     // strip beginning prompt

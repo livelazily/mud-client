@@ -20,7 +20,9 @@ module.exports = class extends ConnectorHandler {
   }
 
   onReadlineServer(line) {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
 
 
   };

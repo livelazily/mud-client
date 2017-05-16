@@ -1,7 +1,6 @@
 'use strict';
 
 
-
 // TODO: ??
 
 const ConnectorHandler = require('../lib/connectorHandler');
@@ -35,7 +34,9 @@ module.exports = class extends ConnectorHandler {
   }
 
   onStats(stats) {
-    if (!stats.battle || !this.enabled || this.inProcess) return;
+    if (!stats.battle || !this.enabled || this.inProcess) {
+      return;
+    }
 
     this.inProcess = true;
     new GroupReader(this.connector, group => {

@@ -1,4 +1,3 @@
-
 'use strict';
 
 const ConnectorHandler = require('../lib/connectorHandler');
@@ -35,18 +34,24 @@ module.exports = class extends ConnectorHandler {
   }
 
   onBattleStart() {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
     this.connector.write("cast 'lower air resist'");
   }
 
   onBattleDead() {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
     this.connector.write("cast 'lower air resist'");
   }
 
 
   onReadlineServer(line) {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
 
     if (line.startsWith('You direct a channel of superheated air')) {
       this.act();
@@ -63,7 +68,7 @@ module.exports = class extends ConnectorHandler {
 
     this.repeats++;
     if (this.repeats % 15 == 0) {
-      this.connector.write('nop' + (Math.random()*10 ^ 0));
+      this.connector.write('nop' + (Math.random() * 10 ^ 0));
       this.repeats = 0;
     }
   }

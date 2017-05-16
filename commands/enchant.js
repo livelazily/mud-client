@@ -32,7 +32,9 @@ module.exports = class extends ConnectorHandler {
   }
 
   onStats(stats) {
-    if (!this.working) return;
+    if (!this.working) {
+      return;
+    }
     if (stats.hpPercent < 0.8) {
       process.exit(1);
     }
@@ -57,7 +59,9 @@ module.exports = class extends ConnectorHandler {
 
 
   onReadlineServer(line) {
-    if (!this.working) return;
+    if (!this.working) {
+      return;
+    }
 
     if (line.includes('You wake') && this.connector.character.manaPercent < 0.8) {
       this.connector.write('sleep rug');
@@ -71,7 +75,9 @@ module.exports = class extends ConnectorHandler {
     if (line.endsWith('glows blue.') || line.endsWith('glows a brilliant blue!')) {
 
       this.count++;
-      if (line.endsWith('glows a brilliant blue!')) this.count++;
+      if (line.endsWith('glows a brilliant blue!')) {
+        this.count++;
+      }
 
       if (this.count >= 8) {
         this.connector.show("DONE!");

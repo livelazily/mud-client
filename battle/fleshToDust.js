@@ -5,7 +5,7 @@ const AutoBattleHandler = require('../lib/autoBattleHandler');
 module.exports = class extends AutoBattleHandler {
 
   constructor(connector) {
-    super(connector, 'cast "flesh to dust"', function(line) {
+    super(connector, 'cast "flesh to dust"', function (line) {
       return line == 'Spell failed.';
     });
   }

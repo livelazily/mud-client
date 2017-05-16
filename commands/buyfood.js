@@ -14,11 +14,11 @@ module.exports = class extends ConnectorHandler {
 
   onCommandBuyfood(args) {
     let store = args[0] || this.connector.character.store;
-    for(let i=0; i<30; i++) {
+    for (let i = 0; i < 30; i++) {
       this.connector.write('buy ' + this.connector.character.food);
       this.connector.write(`put ${this.connector.character.food} ${store}`);
     }
-    for(let i=0; i<3; i++) {
+    for (let i = 0; i < 3; i++) {
       this.connector.write('buy ' + this.connector.character.water);
       this.connector.write(`put ${this.connector.character.water} ${store}`);
     }

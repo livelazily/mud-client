@@ -28,7 +28,9 @@ module.exports = class extends ConnectorHandler {
   }
 
   onReadlineServer(line) {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
 
     if (line.match(new RegExp(`You get .* ${this.store.replace(/^\d+\./, '')}.`))) {
       this.connector.write(`c ident 1.`);

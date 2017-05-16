@@ -23,40 +23,36 @@ class AutoEatTriggers extends ConnectorHandler {
   }
 
   onCommandAutoeat() {
-    if (this.enabled) this.enabled = false;
-    else this.enabled = true;
+    this.enabled = !this.enabled;
     this.connector.showInfo('autoeat ' + this.enabled);
   }
-
 
   get connectorEvents() {
     return ['readlineServer'];
   }
 
   onReadlineServer(line) {
-    if (this.enabled === false) return;
+    if (this.enabled === false) {
+      return;
+    }
 
     let connector = this.connector;
 
-    if (eat.indexOf(line) != -1) {
-      if (connector.character.state == connector.character.BATTLE) {
+    let state = connector.character.state;
+    if (eat.indexOf(line) !== -1) {
+      if (state === connector.character.BATTLE) {
         connector.once('battleFinish', () => connector.character.eat());
       } else {
         connector.character.eat();
       }
-    }
-
-    if (drink.indexOf(line) != -1) {
-      if (connector.character.state == connector.character.BATTLE) {
+    } else if (drink.indexOf(line) !== -1) {
+      if (state === connector.character.BATTLE) {
         connector.once('battleFinish', () => connector.character.drink());
       } else {
         connector.character.drink();
       }
     }
-
   }
-
-
 }
 
 module.exports = AutoEatTriggers;

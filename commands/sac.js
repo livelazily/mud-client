@@ -9,6 +9,7 @@ module.exports = class extends ConnectorHandler {
   constructor(connector) {
     super(connector);
   }
+
   get connectorCommands() {
     return ['sac'];
   }
@@ -23,10 +24,12 @@ module.exports = class extends ConnectorHandler {
   }
 
   onReadlineServer(line) {
-    if (!this.target) return;
+    if (!this.target) {
+      return;
+    }
 
     if (line.startsWith('The gods give you')) {
-      this.connector.write(Math.random() > 0.5 ? `sac ${this.target}`: `sac 1.${this.target}`);
+      this.connector.write(Math.random() > 0.5 ? `sac ${this.target}` : `sac 1.${this.target}`);
     } else if (line == "You can't find it.") {
       this.target = null;
     }

@@ -14,13 +14,13 @@ module.exports = class extends ConnectorHandler {
   }
 
   onBattleStart() {
-  //  this.connector.write("c heal");
+    //  this.connector.write("c heal");
   }
 
   onStats(stats) {
-/*
-    if (stats.hpPercent < 0.6) {
-      this.connector.write('c heal');
+    /*
+     if (stats.hpPercent < 0.6) {
+     this.connector.write('c heal');
      }
      */
   }

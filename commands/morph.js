@@ -3,7 +3,7 @@
 const ConnectorHandler = require('../lib/connectorHandler');
 
 module.exports = class extends ConnectorHandler {
-  
+
   get connectorCommands() {
     return ['morph'];
   }
@@ -11,5 +11,5 @@ module.exports = class extends ConnectorHandler {
   onCommandMorph(args) {
     this.connector.character.morph(args[0]);
   }
-  
+
 };

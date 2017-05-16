@@ -106,7 +106,7 @@ class Connector extends EventEmitter {
 
     this.socket.pipe(telnetInput);
     telnetOutput
-      // convert terminal input to custom encoding
+    // convert terminal input to custom encoding
       .pipe(iconv.decodeStream('utf-8'))
       .pipe(iconv.encodeStream(encoding))
       .pipe(this.socket);
@@ -228,7 +228,7 @@ class Connector extends EventEmitter {
     }
 
     function now() {
-        return new Date().toISOString().replace(/[T:]/g, '_').replace(/[Z]|\.\d{3}/g, '');
+      return new Date().toISOString().replace(/[T:]/g, '_').replace(/[Z]|\.\d{3}/g, '');
     }
   }
 

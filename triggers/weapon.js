@@ -46,7 +46,9 @@ module.exports = class extends ConnectorHandler {
 
   wieldType(type) {
     let weapons = this.connector.character.options.weapons;
-    if (!weapons) return;
+    if (!weapons) {
+      return;
+    }
 
     if (!weapons[type]) {
       this.connector.showError("No type " + type);
@@ -63,7 +65,9 @@ module.exports = class extends ConnectorHandler {
   onReadlineServer(line) {
 
     let weapons = this.connector.character.options.weapons;
-    if (!weapons) return;
+    if (!weapons) {
+      return;
+    }
 
 
     if (line.match(/^\w+ tells the group, 'Fire.'/) && weapons.fire) {
